@@ -1,0 +1,86 @@
+import random
+
+class Hero:
+    def __init__(self, name, level, health, strength):
+        self.name = name
+        self.level = level
+        self.health = health
+        self.strength = strength
+
+    def greet(self):
+        print(f"Привет, я {self.name}!")
+
+    def attack(self):
+        print(f"{self.name} наносит обычный удар!")
+
+    def rest(self):
+        self.health += 10
+        print(f"{self.name} отдыхает и восстанавливает здоровье до {self.health}.")
+
+
+class Warrior(Hero):
+    def __init__(self, name, level, health, strength, stamina):
+        super().__init__(name, level, health, strength)
+        self.stamina = stamina
+
+    def attack(self):
+        print(f"{self.name} атакует мечом!")
+
+
+class Mage(Hero):
+    def __init__(self, name, level, health, strength, mana):
+        super().__init__(name, level, health, strength)
+        self.mana = mana
+
+    def attack(self):
+        print(f"{self.name} кастует заклинание!")
+
+
+class Assassin(Hero):
+    def __init__(self, name, level, health, strength, stealth):
+        super().__init__(name, level, health, strength)
+        self.stealth = stealth
+
+    def attack(self):
+        print(f"{self.name} атакует из-под тишка!")
+
+
+warrior = Warrior(name="Артур", level=5, health=100, strength=15, stamina=80)
+mage = Mage(name="Гэндальф", level=5, health=70, strength=20, mana=100)
+assassin = Assassin(name="Эцио", level=5, health=80, strength=18, stealth=90)
+
+heroes = {
+    "Warrior": warrior,
+    "Mage": mage,
+    "Assassin": assassin
+}
+
+
+def play_game():
+    user_choice = input("Выберите героя (Warrior / Mage / Assassin): ").strip().capitalize()
+
+    if user_choice not in heroes:
+        print("Неверный выбор героя!")
+        return
+
+    player_hero = heroes[user_choice]
+    enemy_hero = random.choice(list(heroes.values()))
+
+    print(f"\nВы выбрали: {player_hero.__class__.__name__}")
+    print(f"Противник: {enemy_hero.__class__.__name__}\n")
+
+    player_class = player_hero.__class__.__name__
+    enemy_class = enemy_hero.__class__.__name__
+
+    if player_class == enemy_class:
+        print("Ничья!")
+    elif (player_class == "Warrior" and enemy_class == "Assassin") or \
+         (player_class == "Assassin" and enemy_class == "Mage") or \
+         (player_class == "Mage" and enemy_class == "Warrior"):
+        print(f"{player_class} победил!")
+    else:
+        print(f"{enemy_class} победил!")
+
+
+if __name__ == "__main__":
+    play_game()
